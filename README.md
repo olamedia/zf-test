@@ -1,4 +1,4 @@
-# zenfox-test
+# zf-test
 
 ## Project setup
 ```
