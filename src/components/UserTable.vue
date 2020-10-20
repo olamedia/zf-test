@@ -8,7 +8,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="user in users" :key="user.id" @click="$emit('selected', user.id)">
+      <tr v-for="user in allUsers" :key="user.id" @click="$emit('selected', user.id)">
         <td>{{ user.name }}</td>
         <td>{{ user.email }}</td>
         <td>{{ user.phone }}</td>
@@ -17,20 +17,28 @@
   </table>
 </template>
 
-<script>
-export default {
-  name: 'UserTable',
-  data() {
-    return {
-    };
-  },
+<script lang="ts">
+import { PropType } from 'vue';
+import { Component, Vue } from 'vue-property-decorator';
+import User from '@/models/User';
+
+const UserTableProps = Vue.extend({
   props: {
     users: {
-      type: Array,
+      type: Array as PropType<User[]>,
       default: () => [],
     },
   },
-};
+});
+
+@Component({
+  components: {},
+})
+export default class UserTable extends UserTableProps {
+  get allUsers(): User[] {
+    return this.users;
+  }
+}
 </script>
 
 <style scoped lang="scss">

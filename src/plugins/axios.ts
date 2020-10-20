@@ -1,4 +1,4 @@
-import Vue from 'vue';
+import Vue, { VueConstructor } from 'vue';
 import axios from 'axios';
 
 // Full config:  https://github.com/axios/axios#request-config
@@ -27,7 +27,13 @@ axiosInstance.interceptors.response.use(
 
 );
 
-Plugin.install = (vm) => {
+// export type PluginFunction<T> = (Vue: typeof _Vue, options?: T) => void;
+// eslint-disable-next-line no-shadow
+export function AxiosPlugin<AxiosPlugOptions>(
+  vm: VueConstructor,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  options?: AxiosPluginOptions,
+): void {
   // eslint-disable-next-line no-param-reassign
   vm.axios = axiosInstance;
   window.axios = axiosInstance;
@@ -43,8 +49,12 @@ Plugin.install = (vm) => {
       },
     },
   });
-};
+}
 
-Vue.use(Plugin);
+export class AxiosPluginOptions {
+  // add stuff
+}
 
-export default Plugin;
+Vue.use(AxiosPlugin);
+
+export default AxiosPlugin;
